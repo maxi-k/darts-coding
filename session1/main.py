@@ -21,10 +21,9 @@ def episode(env, agent, nr_episode=0):
     print(nr_episode, ":", discounted_return)
     return discounted_return
     
-env = rooms.load_env("layouts/rooms_9_9_4.txt", "rooms.mp4")
+env = rooms.load_env("session1/layouts/rooms_9_9_4.txt", "rooms.mp4")
 nr_actions = env.action_space.n
-discount_factor = 0.99
-agent = a.PlanningAndLearningAgent(nr_actions, env, discount_factor, horizon=5, simulations=100, warmup_phase=5000)
+agent = a.RandomAgent(nr_actions)
 training_episodes = 50
 returns = [episode(env, agent, i) for i in range(training_episodes)]
 
