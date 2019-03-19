@@ -44,8 +44,8 @@ class Episode:
         for x in range(0, self.learn_count):
             env, discounted_reward = self.episode()
             history.append(discounted_reward)
-        env.save_video()
         self.show_plot(history)
+        env.save_video()
 
     def show_plot(self, history):
         plot.bar(range(len(history)), history, 1 / 1.5, color = 'blue')
