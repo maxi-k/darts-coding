@@ -23,17 +23,22 @@ class Episode:
     def get_env_state(self, env):
         return str(env.agent_position)
 
+    def episode(self):
+        env = self.create_default_env()
+        done = False
+        while not done:
+            action = self.agent.policy(self.get_env_state(env))
+            old_state = self.get_env_state(env)
+            agent_position, reward, done, other = env.step(action)
+            next_state = self.get_env_state(env)
+            self.agent.update(old_state, action, reward, next_state)
+        return env
+
+
     def run(self):
         env = None
         for x in range(0, self.learn_count):
-            env = self.create_default_env()
-            done = False
-            while not done:
-                action = self.agent.policy(self.get_env_state(env))
-                old_state = self.get_env_state(env)
-                agent_position, reward, done, other = env.step(action)
-                next_state = self.get_env_state(env)
-                self.agent.update(old_state, action, reward, next_state)
+            env = self.episode()
         env.save_video()
 
 
