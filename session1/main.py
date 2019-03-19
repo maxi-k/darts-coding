@@ -11,7 +11,9 @@ large_room = 'layouts/rooms_17_17_4.txt'
 def create_default_env():
     filename = small_room
     movie = '../result.mp4'
-    return rooms.load_env(filename, movie)
+    time_limit = 2000
+    stochastic = False
+    return rooms.load_env(filename, movie, 800, stochastic)
 
 def episode():
     env = create_default_env()
