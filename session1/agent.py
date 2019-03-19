@@ -72,4 +72,7 @@ class QAgent:
         # alpha = learning_speed, gamma = discount
         # Q(s, a)_neu = (1 - alpha) * q(s, a)_alt + alpha * ( r + gamma * max(Q(r, a)))
         self.ensure_matrix_actions(state)
-        self.qmatrix[state][action] = (1 - self.learning_speed) * self.qmatrix[state][action] + self.learning_speed * ( reward + self.discount * self.qmatrix[next_state][self.get_best_action_for_state(next_state)])
+        old_factor = self.qmatrix[state][action]
+        best_next_action = self.get_best_action_for_state(next_state)
+        new_factor = (reward + self.discount * self.qmatrix[next_state][best_next_action])
+        self.qmatrix[state][action] = (1 - self.learning_speed) * old_factor + self.learning_speed * new_factor
