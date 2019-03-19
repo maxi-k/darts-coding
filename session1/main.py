@@ -26,20 +26,31 @@ class Episode:
     def episode(self):
         env = self.create_default_env()
         done = False
+        discounted_reward = 0
+        steps = 0
         while not done:
             action = self.agent.policy(self.get_env_state(env))
             old_state = self.get_env_state(env)
             agent_position, reward, done, other = env.step(action)
             next_state = self.get_env_state(env)
             self.agent.update(old_state, action, reward, next_state)
-        return env
-
+            discounted_reward += self.agent.discount ** (reward * steps)
+            steps += 1
+        return env, discounted_reward
 
     def run(self):
         env = None
+        history = []
         for x in range(0, self.learn_count):
-            env = self.episode()
+            env, discounted_reward = self.episode()
+            history.append(discounted_reward)
         env.save_video()
+        self.show_plot(history)
+
+    def show_plot(self, history):
+        plot.bar(range(len(history)), history, 1 / 1.5, color = 'blue')
+        plot.show()
+
 
 
 agent = a.QAgent(len(rooms.ROOMS_ACTIONS))
