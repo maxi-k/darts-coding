@@ -116,7 +116,7 @@ class RoomsEnv(gym.Env):
     def save_video(self):
         if self.movie_filename is not None:
             history_of_states = self.state_history
-            duration_in_seconds = len(history_of_states)/4
+            duration_in_seconds = len(history_of_states)/8
             fig, ax = plot.subplots()
             frames_per_second = len(history_of_states)/duration_in_seconds
             def make_frame(t):
